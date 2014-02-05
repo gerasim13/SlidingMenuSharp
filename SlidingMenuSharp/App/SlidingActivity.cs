@@ -1,10 +1,11 @@
 using Android.App;
 using Android.OS;
 using Android.Views;
+using Xamarin.ActionbarSherlockBinding.App;
 
 namespace SlidingMenuSharp.App
 {
-    public class SlidingActivity : Activity, ISlidingActivity
+    public class SlidingActivity : SherlockActivity, ISlidingActivity
     {
         private SlidingActivityHelper _helper;
 
@@ -99,7 +100,7 @@ namespace SlidingMenuSharp.App
         public override bool OnKeyUp(Keycode keyCode, KeyEvent e)
         {
             var b = _helper.OnKeyUp(keyCode, e);
-		    return b ? b : base.OnKeyUp(keyCode, e);
+            return b ? b : base.OnKeyUp(keyCode, e);
         }
     }
 }

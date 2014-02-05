@@ -1,10 +1,11 @@
 using Android.OS;
 using Android.Preferences;
 using Android.Views;
+using Xamarin.ActionbarSherlockBinding.App;
 
 namespace SlidingMenuSharp.App
 {
-    public class SlidingPrefereceActivity : PreferenceActivity, ISlidingActivity
+    public class SlidingPrefereceActivity : SherlockPreferenceActivity, ISlidingActivity
     {
         private SlidingActivityHelper _helper;
 

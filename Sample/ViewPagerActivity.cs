@@ -29,7 +29,7 @@ namespace Sample
 
             vp.PageSelected += (sender, args) =>
                 {
-                    switch (args.P0)
+                    switch (args.Position)
                     {
                         case 0:
                             SlidingMenu.TouchModeAbove = TouchMode.Fullscreen;

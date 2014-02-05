@@ -41,10 +41,10 @@ namespace Sample
             SlidingMenu.FadeDegree = 0.25f;
             SlidingMenu.TouchModeAbove = TouchMode.Fullscreen;
 
-            ActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
         }
 
-        public override bool OnOptionsItemSelected(IMenuItem item)
+        public override bool OnOptionsItemSelected(Xamarin.ActionbarSherlockBinding.Views.IMenuItem item)
         {
             switch (item.ItemId)
             {

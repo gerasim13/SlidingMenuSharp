@@ -2,10 +2,11 @@ using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using Xamarin.ActionbarSherlockBinding.App;
 
 namespace SlidingMenuSharp.App
 {
-    public class SlidingListActivity : ListActivity, ISlidingActivity
+    public class SlidingListActivity : SherlockListActivity, ISlidingActivity
     {
         private SlidingActivityHelper _helper;
 

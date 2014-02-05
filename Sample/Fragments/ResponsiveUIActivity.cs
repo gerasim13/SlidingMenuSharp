@@ -62,7 +62,7 @@ namespace Sample.Fragments
                     .Show();
         }
 
-        public override bool OnOptionsItemSelected(IMenuItem item)
+        public override bool OnOptionsItemSelected(Xamarin.ActionbarSherlockBinding.Views.IMenuItem item)
         {
             switch (item.ItemId)
             {
