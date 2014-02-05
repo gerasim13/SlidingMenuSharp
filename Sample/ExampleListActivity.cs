@@ -5,11 +5,12 @@ using Android.OS;
 using Android.Preferences;
 using Sample.Anim;
 using Sample.Fragments;
+using Xamarin.ActionbarSherlockBinding.App;
 
 namespace Sample
 {
     [Activity(MainLauncher = true, Label = "SlidingMenu Demo")]
-    public class ExampleListActivity : PreferenceActivity
+    public class ExampleListActivity : SherlockPreferenceActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
