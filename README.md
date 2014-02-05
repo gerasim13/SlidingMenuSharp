@@ -1,11 +1,9 @@
-SlidingMenuSharp
+SherlockSlidingMenuSharp
 ================
 
-A direct port of [SlidingMenu](https://github.com/jfeinstein10/SlidingMenu) to C# to work with [Xamarin.Android](http://xamarin.com/monoforandroid)
+A fork of [SlidingMenuSharp](https://github.com/Cheesebaron/SlidingMenuSharp) to work with XamarinActionBarSherlock [Xamarin.Android](https://components.xamarin.com/view/XamarinActionBarSherlock)
 
-TODO
-----
-* Create docs on how to use it, for now look in the samples, they should cover all aspects.
+Check out the sample to see how it works. If you use this in your own xamarin android project don't forget to download the XamarinActionBarSherlock component in your project.
 
 Thanks to
 ---------
