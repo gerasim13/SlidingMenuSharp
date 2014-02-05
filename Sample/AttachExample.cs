@@ -1,11 +1,12 @@
 using Android.App;
 using Android.OS;
 using Android.Support.V4.App;
-using SlidingMenuSharp;
+using SherlockSlidingMenuSharp;
+using SherlockSlidingMenuSharp;
 
 namespace Sample
 {
-    [Activity(Label = "Attach Example", Theme = "@style/ExampleTheme")]
+    [Activity(Label = "Attach Example")]
     public class AttachExample : FragmentActivity
     {
         private SlidingMenu _menu;

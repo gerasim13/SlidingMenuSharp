@@ -6,7 +6,7 @@ using Android.Util;
 using Android.Views;
 using Math = System.Math;
 
-namespace SlidingMenuSharp
+namespace SherlockSlidingMenuSharp
 {
     public sealed class CustomViewBehind : ViewGroup
     {

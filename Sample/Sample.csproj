@@ -90,9 +90,9 @@
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SlidingMenuSharp\SlidingMenuSharp.csproj">
+    <ProjectReference Include="..\SlidingMenuSharp\SherlockSlidingMenuSharp.csproj">
       <Project>{555937d8-1533-4d19-a346-55c192c35a5d}</Project>
-      <Name>SlidingMenuSharp</Name>
+      <Name>SherlockSlidingMenuSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

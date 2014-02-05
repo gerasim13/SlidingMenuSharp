@@ -1,10 +1,10 @@
 using Android.App;
 using Android.OS;
-using SlidingMenuSharp;
+using SherlockSlidingMenuSharp;
 
 namespace Sample
 {
-    [Activity(Label = "Left and Right", Theme = "@style/ExampleTheme")]
+    [Activity(Label = "Left and Right")]
     public class LeftAndRightActivity : BaseActivity
     {
         public LeftAndRightActivity() 

@@ -1,9 +1,9 @@
 using Android.App;
-using SlidingMenuSharp;
+using SherlockSlidingMenuSharp;
 
 namespace Sample.Anim
 {
-    [Activity(Label = "Zoom Animation", Theme = "@style/ExampleTheme")]
+    [Activity(Label = "Zoom Animation")]
     public class ZoomAnimation : CustomAnimation
     {
         public ZoomAnimation()

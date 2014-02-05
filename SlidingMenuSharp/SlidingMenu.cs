@@ -9,7 +9,7 @@ using Android.Views;
 using Android.Widget;
 using Java.Interop;
 
-namespace SlidingMenuSharp
+namespace SherlockSlidingMenuSharp
 {
     public class SlidingMenu : RelativeLayout
     {

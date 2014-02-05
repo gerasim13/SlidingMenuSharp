@@ -8,7 +8,7 @@ using Sample.Fragments;
 
 namespace Sample
 {
-    [Activity(MainLauncher = true, Label = "SlidingMenu Demo", Theme = "@style/ExampleTheme")]
+    [Activity(MainLauncher = true, Label = "SlidingMenu Demo")]
     public class ExampleListActivity : PreferenceActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

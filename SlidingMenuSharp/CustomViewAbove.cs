@@ -8,8 +8,9 @@ using Android.Util;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
+using SherlockSlidingMenuSharp;
 
-namespace SlidingMenuSharp
+namespace SherlockSlidingMenuSharp
 {
     public delegate void PageSelectedEventHandler(object sender, PageSelectedEventArgs e);
     public delegate void PageScrolledEventHandler(object sender, PageScrolledEventArgs e);

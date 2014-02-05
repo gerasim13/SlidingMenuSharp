@@ -1,7 +1,7 @@
 using Android.OS;
 using Android.Views;
-using SlidingMenuSharp;
-using SlidingMenuSharp.App;
+using SherlockSlidingMenuSharp;
+using SherlockSlidingMenuSharp.App;
 using ListFragment = Android.Support.V4.App.ListFragment;
 
 namespace Sample

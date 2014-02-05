@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("SlidingMenuSharp.Resource", IsApplication=false)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("SherlockSlidingMenuSharp.Resource", IsApplication=false)]
 
-namespace SlidingMenuSharp
+namespace SherlockSlidingMenuSharp
 {
 	
 	

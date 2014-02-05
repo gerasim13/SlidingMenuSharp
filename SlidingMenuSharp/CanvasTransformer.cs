@@ -1,7 +1,7 @@
 using Android.Graphics;
 using Android.Views.Animations;
 
-namespace SlidingMenuSharp
+namespace SherlockSlidingMenuSharp
 {
     public interface ICanvasTransformer
     {

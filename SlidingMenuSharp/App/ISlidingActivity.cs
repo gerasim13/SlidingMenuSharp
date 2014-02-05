@@ -1,6 +1,7 @@
 using Android.Views;
+using SherlockSlidingMenuSharp;
 
-namespace SlidingMenuSharp.App
+namespace SherlockSlidingMenuSharp.App
 {
     public interface ISlidingActivity
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace SlidingMenuSharp
+namespace SherlockSlidingMenuSharp
 {
     public class PageSelectedEventArgs : EventArgs
     {

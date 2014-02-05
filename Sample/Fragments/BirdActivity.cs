@@ -8,7 +8,7 @@ using Android.Widget;
 
 namespace Sample.Fragments
 {
-    [Activity(Label = "Birds", Theme = "@style/ExampleTheme")]
+    [Activity(Label = "Birds")]
     public class BirdActivity : Activity
     {
         private Handler _handler;
