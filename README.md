@@ -1,7 +1,7 @@
 SherlockSlidingMenuSharp
 ================
 
-A fork of [SlidingMenuSharp](https://github.com/Cheesebaron/SlidingMenuSharp) to work with XamarinActionBarSherlock [Xamarin.Android](https://components.xamarin.com/view/XamarinActionBarSherlock)
+A fork of [SlidingMenuSharp](https://github.com/Cheesebaron/SlidingMenuSharp) to work with [XamarinActionBarSherlock](https://components.xamarin.com/view/XamarinActionBarSherlock)
 
 Check out the sample to see how it works. If you use this in your own xamarin android project don't forget to download the XamarinActionBarSherlock component in your project.
 
