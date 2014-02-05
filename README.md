@@ -7,6 +7,7 @@ Check out the sample to see how it works. If you use this in your own xamarin an
 
 Thanks to
 ---------
+* [Tomasz Cielecki](https://github.com/Cheesebaron) - The creator of [SlidingMenuSharp](https://github.com/Cheesebaron/SlidingMenuSharp)
 * [Jeremy Feinstein](https://github.com/jfeinstein10) - The creator of [SlidingMenu](https://github.com/jfeinstein10/SlidingMenu)
 
 License
