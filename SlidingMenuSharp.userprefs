@@ -1,0 +1,18 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Sample/Fragments/BirdMenuFragment.cs">
+    <Files>
+      <File FileName="SlidingMenuSharp/SlidingMenu.cs" Line="634" Column="13" />
+      <File FileName="SlidingMenuSharp/CustomViewAbove.cs" Line="689" Column="48" />
+      <File FileName="Sample/Fragments/BirdActivity.cs" Line="12" Column="41" />
+      <File FileName="Sample/Fragments/BirdMenuFragment.cs" Line="34" Column="24" />
+      <File FileName="Sample/Fragments/BirdGridFragment.cs" Line="1" Column="1" />
+      <File FileName="Sample/BaseActivity.cs" Line="24" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Sample AndroidDeviceId-Debug="FA43PWM00268" />
+</Properties>

@@ -11,9 +11,9 @@ using Android.Widget;
 
 namespace SlidingMenuSharp
 {
-    public delegate void PageSelectedEventHandler(object sender, PageSelectedEventArgs e);
-    public delegate void PageScrolledEventHandler(object sender, PageScrolledEventArgs e);
-    public delegate void PageScrollStateChangedEventHandler(object sender, PageScrollStateChangedEventArgs e);
+    public delegate void PageSelectedEventHandler(object sender,PageSelectedEventArgs e);
+    public delegate void PageScrolledEventHandler(object sender,PageScrolledEventArgs e);
+    public delegate void PageScrollStateChangedEventHandler(object sender,PageScrollStateChangedEventArgs e);
 
     public class CustomViewAbove : ViewGroup
     {
@@ -21,8 +21,10 @@ namespace SlidingMenuSharp
 
         private const bool UseCache = false;
 
-        private const int MaxSettleDuration = 600; // ms
-        private const int MinDistanceForFling = 25; // dips
+        private const int MaxSettleDuration = 600;
+        // ms
+        private const int MinDistanceForFling = 25;
+        // dips
 
         private readonly IInterpolator _interpolator = new CVAInterpolator();
 
@@ -37,44 +39,44 @@ namespace SlidingMenuSharp
 
         private View _content;
 
-	    private int _curItem;
-	    private Scroller _scroller;
+        private int _curItem;
+        private Scroller _scroller;
 
-	    private bool _scrollingCacheEnabled;
+        private bool _scrollingCacheEnabled;
 
-	    private bool _scrolling;
+        private bool _scrolling;
 
-	    private bool _isBeingDragged;
-	    private bool _isUnableToDrag;
-	    private int _touchSlop;
-	    private float _initialMotionX;
-	    /**
+        private bool _isBeingDragged;
+        private bool _isUnableToDrag;
+        private int _touchSlop;
+        private float _initialMotionX;
+        /**
 	     * Position of the last motion event.
 	     */
-	    private float _lastMotionX;
-	    private float _lastMotionY;
-	    /**
+        private float _lastMotionX;
+        private float _lastMotionY;
+        /**
 	     * ID of the active pointer. This is used to retain consistency during
 	     * drags/flings if multiple pointers are used.
 	     */
-	    protected int ActivePointerId = InvalidPointer;
-	    /**
+        protected int ActivePointerId = InvalidPointer;
+        /**
 	     * Sentinel value for no current active pointer.
 	     * Used by {@link #ActivePointerId}.
 	     */
-	    private const int InvalidPointer = -1;
+        private const int InvalidPointer = -1;
 
-	    /**
+        /**
 	     * Determines speed during touch scrolling
 	     */
-	    protected VelocityTracker VelocityTracker;
-	    private int _minimumVelocity;
-	    protected int MaximumVelocity;
-	    private int _flingDistance;
+        protected VelocityTracker VelocityTracker;
+        private int _minimumVelocity;
+        protected int MaximumVelocity;
+        private int _flingDistance;
 
-	    private CustomViewBehind _viewBehind;
-	    //	private int mMode;
-	    private bool _enabled = true;
+        private CustomViewBehind _viewBehind;
+        //	private int mMode;
+        private bool _enabled = true;
 
         private readonly IList<View> _ignoredViews = new List<View>();
 
@@ -110,22 +112,23 @@ namespace SlidingMenuSharp
             MaximumVelocity = configuration.ScaledMaximumFlingVelocity;
 
             var density = Context.Resources.DisplayMetrics.Density;
-            _flingDistance = (int) (MinDistanceForFling*density);
+            _flingDistance = (int)(MinDistanceForFling * density);
 
             PageSelected += (sender, args) =>
+            {
+                if (_viewBehind == null)
+                    return;
+                switch (args.Position)
                 {
-                    if (_viewBehind == null) return;
-                    switch (args.Position)
-                    {
-                        case 0:
-                        case 2:
-                            _viewBehind.ChildrenEnabled = true;
-                            break;
-                        case 1:
-                            _viewBehind.ChildrenEnabled = false;
-                            break;
-                    }
-                };
+                    case 0:
+                    case 2:
+                        _viewBehind.ChildrenEnabled = true;
+                        break;
+                    case 1:
+                        _viewBehind.ChildrenEnabled = false;
+                        break;
+                }
+            };
         }
 
         public void SetCurrentItem(int item)
@@ -145,7 +148,8 @@ namespace SlidingMenuSharp
 
         void SetCurrentItemInternal(int item, bool smoothScroll, bool always, int velocity = 0)
         {
-            if (!always && _curItem == item) {
+            if (!always && _curItem == item)
+            {
                 ScrollingCacheEnabled = false;
                 return;
             }
@@ -159,9 +163,12 @@ namespace SlidingMenuSharp
             {
                 PageSelected(this, new PageSelectedEventArgs { Position = item });
             }
-            if (smoothScroll) {
+            if (smoothScroll)
+            {
                 SmoothScrollTo(destX, 0, velocity);
-            } else {
+            }
+            else
+            {
                 CompleteScroll();
                 ScrollTo(destX, 0);
             }
@@ -186,7 +193,7 @@ namespace SlidingMenuSharp
         static float DistanceInfluenceForSnapDuration(float f)
         {
             f -= 0.5f;
-            f *= 0.3f*(float)Math.PI/2.0f;
+            f *= 0.3f * (float)Math.PI / 2.0f;
             return FloatMath.Sin(f);
         }
 
@@ -229,7 +236,7 @@ namespace SlidingMenuSharp
             foreach (var v in _ignoredViews)
             {
                 v.GetHitRect(rect);
-                if (rect.Contains((int) ev.GetX(), (int) ev.GetY())) 
+                if (rect.Contains((int)ev.GetX(), (int)ev.GetY()))
                     return true;
             }
             return false;
@@ -237,7 +244,8 @@ namespace SlidingMenuSharp
 
         public int BehindWidth
         {
-            get {
+            get
+            {
                 return _viewBehind == null ? 0 : _viewBehind.BehindWidth;
             }
         }
@@ -302,8 +310,26 @@ namespace SlidingMenuSharp
                 duration = (int)(4 * Math.Round(1000 * Math.Abs(distance / velocity)));
             else
             {
-                var pageDelta = (float) Math.Abs(dx) / width;
-                duration = (int) ((pageDelta + 1) * 100);
+                switch (_viewBehind.Mode)
+                {
+                    case MenuMode.Left:
+                    case MenuMode.Right:
+                        duration = MaxSettleDuration;
+                        break;
+                    case MenuMode.LeftRight:
+                        if (_viewBehind.BehindWidth > _viewBehind.SecondaryBehindWidth)
+                        {
+                            duration = MaxSettleDuration * Math.Abs(dx) / _viewBehind.BehindWidth;
+                        }
+                        else
+                        {
+                            duration = MaxSettleDuration * Math.Abs(dx) / _viewBehind.SecondaryBehindWidth;
+                        }
+                        break;
+                    default:
+                        duration = MaxSettleDuration;
+                        break;
+                }
             }
             duration = Math.Min(duration, MaxSettleDuration);
 
@@ -343,7 +369,8 @@ namespace SlidingMenuSharp
         {
             base.OnSizeChanged(w, h, oldw, oldh);
 
-            if (w == oldw) return;
+            if (w == oldw)
+                return;
             CompleteScroll();
             ScrollTo(GetDestScrollX(_curItem), ScrollY);
         }
@@ -374,7 +401,7 @@ namespace SlidingMenuSharp
                     var x = _scroller.CurrX;
                     var y = _scroller.CurrY;
 
-                    if (oldX != x ||oldY != y)
+                    if (oldX != x || oldY != y)
                     {
                         ScrollTo(x, y);
                         OnPageScrolled(x);
@@ -397,11 +424,11 @@ namespace SlidingMenuSharp
 
             if (null != PageScrolled)
                 PageScrolled(this, new PageScrolledEventArgs
-                    {
-                        Position = position, 
-                        PositionOffset = offset, 
-                        PositionOffsetPixels = offsetPixels
-                    });
+                {
+                    Position = position, 
+                    PositionOffset = offset, 
+                    PositionOffsetPixels = offsetPixels
+                });
         }
 
         private void CompleteScroll()
@@ -436,7 +463,7 @@ namespace SlidingMenuSharp
 
         private bool ThisTouchAllowed(MotionEvent ev)
         {
-            var x = (int) (ev.GetX() + _scrollX);
+            var x = (int)(ev.GetX() + _scrollX);
             if (IsMenuOpen)
             {
                 return _viewBehind.MenuOpenTouchAllowed(_content, _curItem, x);
@@ -476,14 +503,14 @@ namespace SlidingMenuSharp
             if (!_enabled)
                 return false;
 
-            var action = (int) ev.Action & MotionEventCompat.ActionMask;
+            var action = (int)ev.Action & MotionEventCompat.ActionMask;
 
 #if DEBUG
-            if (action == (int) MotionEventActions.Down)
+            if (action == (int)MotionEventActions.Down)
                 Log.Verbose(Tag, "Recieved ACTION_DOWN");
 #endif
-            if (action == (int) MotionEventActions.Cancel || action == (int) MotionEventActions.Up ||
-                (action != (int) MotionEventActions.Down && _isUnableToDrag))
+            if (action == (int)MotionEventActions.Cancel || action == (int)MotionEventActions.Up ||
+                (action != (int)MotionEventActions.Down && _isUnableToDrag))
             {
                 EndDrag();
                 return false;
@@ -506,7 +533,7 @@ namespace SlidingMenuSharp
                         _isBeingDragged = false;
                         _isUnableToDrag = false;
                         if (IsMenuOpen && _viewBehind.MenuTouchInQuickReturn(_content, _curItem, 
-                            ev.GetX() + _scrollX))
+                                ev.GetX() + _scrollX))
                             _quickReturn = true;
                     }
                     else
@@ -526,41 +553,41 @@ namespace SlidingMenuSharp
             return _isBeingDragged || _quickReturn;
         }
 
-        public override bool OnTouchEvent(MotionEvent ev)
+        public override bool OnTouchEvent(MotionEvent e)
         {
             if (!_enabled)
                 return false;
 
-            if (!_isBeingDragged && !ThisTouchAllowed(ev))
+            if (!_isBeingDragged && !_quickReturn && !ThisTouchAllowed(e))
                 return false;
 
             if (VelocityTracker == null)
                 VelocityTracker = VelocityTracker.Obtain();
-            VelocityTracker.AddMovement(ev);
+            VelocityTracker.AddMovement(e);
 
-            var action = (int)ev.Action & MotionEventCompat.ActionMask;
+            var action = (int)e.Action & MotionEventCompat.ActionMask;
             switch (action)
             {
                 case (int) MotionEventActions.Down:
                     CompleteScroll();
 
-                    var index = MotionEventCompat.GetActionIndex(ev);
-                    ActivePointerId = MotionEventCompat.GetPointerId(ev, index);
-                    _lastMotionX = _initialMotionX = ev.GetX();
+                    var index = MotionEventCompat.GetActionIndex(e);
+                    ActivePointerId = MotionEventCompat.GetPointerId(e, index);
+                    _lastMotionX = _initialMotionX = e.GetX();
                     break;
                 case (int) MotionEventActions.Move:
                     if (!_isBeingDragged)
                     {
-                        DetermineDrag(ev);
+                        DetermineDrag(e);
                         if (_isUnableToDrag)
                             return false;
                     }
                     if (_isBeingDragged)
                     {
-                        var activePointerIndex = GetPointerIndex(ev, ActivePointerId);
+                        var activePointerIndex = GetPointerIndex(e, ActivePointerId);
                         if (ActivePointerId == InvalidPointer)
                             break;
-                        var x = MotionEventCompat.GetX(ev, activePointerIndex);
+                        var x = MotionEventCompat.GetX(e, activePointerIndex);
                         var deltaX = _lastMotionX - x;
                         _lastMotionX = x;
                         var oldScrollX = ScrollX;
@@ -571,8 +598,8 @@ namespace SlidingMenuSharp
                             scrollX = leftBound;
                         else if (scrollX > rightBound)
                             scrollX = rightBound;
-                        _lastMotionX += scrollX - (int) scrollX;
-                        ScrollTo((int) scrollX, ScrollY);
+                        _lastMotionX += scrollX - (int)scrollX;
+                        ScrollTo((int)scrollX, ScrollY);
                         OnPageScrolled((int)scrollX);
                     }
                     break;
@@ -582,48 +609,47 @@ namespace SlidingMenuSharp
                         var velocityTracker = VelocityTracker;
                         velocityTracker.ComputeCurrentVelocity(1000, MaximumVelocity);
                         var initialVelocity =
-                            (int) VelocityTrackerCompat.GetXVelocity(velocityTracker, ActivePointerId);
+                            (int)VelocityTrackerCompat.GetXVelocity(velocityTracker, ActivePointerId);
                         var scrollX = ScrollX;
-                        var pageOffset = (float) (scrollX - GetDestScrollX(_curItem)) / BehindWidth;
-                        var activePointerIndex = GetPointerIndex(ev, ActivePointerId);
+                        var pageOffset = (float)(scrollX - GetDestScrollX(_curItem)) / BehindWidth;
+                        var activePointerIndex = GetPointerIndex(e, ActivePointerId);
                         if (ActivePointerId != InvalidPointer)
                         {
-                            var x = MotionEventCompat.GetX(ev, activePointerIndex);
-                            var totalDelta = (int) (x - _initialMotionX);
+                            var x = MotionEventCompat.GetX(e, activePointerIndex);
+                            var totalDelta = (int)(x - _initialMotionX);
                             var nextPage = DetermineTargetPage(pageOffset, initialVelocity, totalDelta);
                             SetCurrentItemInternal(nextPage, true, true, initialVelocity);
                         }
                         else
                             SetCurrentItemInternal(_curItem, true, true, initialVelocity);
                         ActivePointerId = InvalidPointer;
-                        EndDrag();
                     }
                     else if (_quickReturn &&
-                             _viewBehind.MenuTouchInQuickReturn(_content, _curItem, ev.GetX() + _scrollX))
+                             _viewBehind.MenuTouchInQuickReturn(_content, _curItem, e.GetX() + _scrollX))
                     {
                         SetCurrentItem(1);
-                        EndDrag();
                     }
+                    EndDrag();
                     break;
                 case (int) MotionEventActions.Cancel:
                     if (_isBeingDragged)
                     {
                         SetCurrentItemInternal(_curItem, true, true);
                         ActivePointerId = InvalidPointer;
-                        EndDrag();
                     }
+                    EndDrag();
                     break;
                 case MotionEventCompat.ActionPointerDown:
-                    var indexx = MotionEventCompat.GetActionIndex(ev);
-                    _lastMotionX = MotionEventCompat.GetX(ev, indexx);
-                    ActivePointerId = MotionEventCompat.GetPointerId(ev, indexx);
+                    var indexx = MotionEventCompat.GetActionIndex(e);
+                    _lastMotionX = MotionEventCompat.GetX(e, indexx);
+                    ActivePointerId = MotionEventCompat.GetPointerId(e, indexx);
                     break;
                 case MotionEventCompat.ActionPointerUp:
-                    OnSecondaryPointerUp(ev);
-                    var pointerIndex = GetPointerIndex(ev, ActivePointerId);
+                    OnSecondaryPointerUp(e);
+                    var pointerIndex = GetPointerIndex(e, ActivePointerId);
                     if (ActivePointerId == InvalidPointer)
                         break;
-                    _lastMotionX = MotionEventCompat.GetX(ev, pointerIndex);
+                    _lastMotionX = MotionEventCompat.GetX(e, pointerIndex);
                     break;
             }
             return true;
@@ -641,7 +667,8 @@ namespace SlidingMenuSharp
             var y = MotionEventCompat.GetY(ev, pointerIndex);
             var dy = y - _lastMotionY;
             var yDiff = Math.Abs(dy);
-            if (xDiff > (IsMenuOpen ? _touchSlop / 2 : _touchSlop) && xDiff > yDiff && ThisSlideAllowed(dx))
+            //if (xDiff > (IsMenuOpen ? _touchSlop / 2 : _touchSlop) && xDiff > yDiff && ThisSlideAllowed(dx))
+            if (xDiff > _touchSlop / 2 && xDiff > yDiff && ThisSlideAllowed(dx))
             {
                 StartDrag();
                 _lastMotionX = x;
@@ -674,7 +701,7 @@ namespace SlidingMenuSharp
                     targetPage += 1;
             }
             else
-                targetPage = (int) Math.Round(_curItem + pageOffset);
+                targetPage = (int)Math.Round(_curItem + pageOffset);
             return targetPage;
         }
 
@@ -687,6 +714,54 @@ namespace SlidingMenuSharp
             _viewBehind.DrawShadow(_content, canvas);
             _viewBehind.DrawFade(_content, canvas, PercentOpen);
             _viewBehind.DrawSelector(_content, canvas, PercentOpen);
+            DrawFade(this, canvas, PercentOpen);
+        }
+
+        private bool _fadeEnabled;
+        private float _fadeDegree;
+        private Paint _fadePaint = new Paint();
+
+        public void SetFadeEnabled(bool b)
+        {
+            _fadeEnabled = b;
+        }
+
+        public void SetFadeDegree(float degree)
+        {
+            if (degree > 1.0f || degree < 0.0f)
+                throw new Java.Lang.IllegalStateException("The BehindFadeDegree must be between 0.0f and 1.0f");
+            _fadeDegree = degree;
+        }
+
+        public void DrawFade(View content, Canvas canvas, float openPercent)
+        {
+            if (!_fadeEnabled)
+                return;
+            int alpha = (int)(_fadeDegree * 255 * System.Math.Abs(openPercent));
+            _fadePaint.Color = Color.Argb(alpha, 0, 0, 0);
+            int left = 0;
+            int right = 0;
+
+
+            switch (_viewBehind.Mode)
+            {
+                case MenuMode.Left:
+                    left = content.Left;
+                    right = content.Right;
+                    break;
+                case MenuMode.Right:
+                    left = 0;
+                    right = content.Right;
+                    break;
+                case MenuMode.LeftRight:
+                    left = content.Left;
+                    right = content.Right;
+                    canvas.DrawRect(left, 0, right, Height, _fadePaint);
+                    left = 0;
+                    right = content.Right;
+                    break;
+            }
+            canvas.DrawRect(left, 0, right, Height, _fadePaint);
         }
 
         private void OnSecondaryPointerUp(MotionEvent ev)
@@ -719,7 +794,8 @@ namespace SlidingMenuSharp
             _isUnableToDrag = false;
             ActivePointerId = InvalidPointer;
 
-            if (VelocityTracker == null) return;
+            if (VelocityTracker == null)
+                return;
             VelocityTracker.Recycle();
             VelocityTracker = null;
         }
@@ -834,7 +910,7 @@ namespace SlidingMenuSharp
         {
             if (_curItem > 0)
             {
-                SetCurrentItem(_curItem-1, true);
+                SetCurrentItem(_curItem - 1, true);
                 return true;
             }
             return false;
@@ -844,7 +920,7 @@ namespace SlidingMenuSharp
         {
             if (_curItem < 1)
             {
-                SetCurrentItem(_curItem+1, true);
+                SetCurrentItem(_curItem + 1, true);
                 return true;
             }
             return false;

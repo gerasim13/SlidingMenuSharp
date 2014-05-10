@@ -33,9 +33,9 @@ namespace SlidingMenuSharp.App
             _helper.OnSaveInstanceState(outState);
         }
 
-        public override void SetContentView(int layoutResId)
+        public override void SetContentView(int layoutResID)
         {
-            SetContentView(LayoutInflater.Inflate(layoutResId, null));
+            SetContentView(LayoutInflater.Inflate(layoutResID, null));
         }
 
         public override void SetContentView(View view)
@@ -99,7 +99,13 @@ namespace SlidingMenuSharp.App
         public override bool OnKeyUp(Keycode keyCode, KeyEvent e)
         {
             var b = _helper.OnKeyUp(keyCode, e);
-		    return b ? b : base.OnKeyUp(keyCode, e);
+            return b ? b : base.OnKeyUp(keyCode, e);
+        }
+
+        public override void OnContentChanged()
+        {
+            base.OnContentChanged();
+            _helper.OnContentChanged();
         }
     }
 }

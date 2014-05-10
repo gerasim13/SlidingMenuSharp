@@ -107,5 +107,10 @@ namespace SlidingMenuSharp.App
             var b = _helper.OnKeyUp(keyCode, e);
             return b ? b : base.OnKeyUp(keyCode, e);
         }
+
+        public override void OnContentChanged() {
+            base.OnContentChanged();
+            _helper.OnContentChanged();
+        }
     }
 }

@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using Android.App;
 using Android.OS;
-using Android.Support.V4.App;
+using Android.App;
 using Android.Support.V4.View;
 using Sample.Fragments;
 using SlidingMenuSharp;
-using Fragment = Android.Support.V4.App.Fragment;
-using FragmentManager = Android.Support.V4.App.FragmentManager;
+using Android.Support.V4.App;
 
 namespace Sample
 {
@@ -47,7 +46,7 @@ namespace Sample
 
         public class ColorPagerAdapter : FragmentPagerAdapter
         {
-            private readonly IList<Fragment> _fragments;
+            private readonly IList<Android.Support.V4.App.Fragment> _fragments;
 
             private readonly int[] _colors = new[]
                 {
@@ -58,10 +57,10 @@ namespace Sample
                     Resource.Color.black
                 };
 
-            public ColorPagerAdapter(FragmentManager fm) 
+            public ColorPagerAdapter(Android.Support.V4.App.FragmentManager fm) 
                 : base(fm)
             {
-                _fragments = new List<Fragment>();
+                _fragments = new List<Android.Support.V4.App.Fragment>();
                 foreach (var c in _colors)
                     _fragments.Add(new ColorFragment(c));
             }
@@ -71,7 +70,7 @@ namespace Sample
                 get { return _fragments.Count; }
             }
 
-            public override Fragment GetItem(int p0)
+            public override Android.Support.V4.App.Fragment GetItem(int p0)
             {
                 return _fragments[p0];
             }

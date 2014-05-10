@@ -13,13 +13,15 @@ namespace Sample.Fragments
     {
         private Handler _handler;
 
-        public static Intent NewInstance(Activity activity, int pos) {
+        public static Intent NewInstance(Activity activity, int pos)
+        {
             var intent = new Intent(activity, typeof(BirdActivity));
             intent.PutExtra("pos", pos);
             return intent;
         }
 
-        protected override void OnCreate(Bundle savedInstanceState) {
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
             base.OnCreate(savedInstanceState);
             
             var pos = 0;
@@ -42,10 +44,10 @@ namespace Sample.Fragments
             imageView.SetScaleType(ImageView.ScaleType.CenterInside);
             imageView.SetImageResource(resId);
             imageView.Click += (sender, args) =>
-                {
-                    ActionBar.Show();
-                    HideActionBarDelayed(_handler);
-                };
+            {
+                ActionBar.Show();
+                HideActionBarDelayed(_handler);
+            };
             SetContentView(imageView);
             Window.SetBackgroundDrawableResource(Android.Resource.Color.BackgroundDark);
         }
@@ -68,7 +70,8 @@ namespace Sample.Fragments
             return base.OnOptionsItemSelected(item);
         }
 
-        private void HideActionBarDelayed(Handler handler) {
+        private void HideActionBarDelayed(Handler handler)
+        {
             handler.PostDelayed(() => ActionBar.Hide(), 2000);
         }
     }

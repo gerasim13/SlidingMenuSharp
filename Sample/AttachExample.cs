@@ -1,7 +1,7 @@
-using Android.App;
-using Android.OS;
 using Android.Support.V4.App;
+using Android.OS;
 using SlidingMenuSharp;
+using Android.App;
 
 namespace Sample
 {
@@ -23,13 +23,13 @@ namespace Sample
                 .Commit();
 
             _menu = new SlidingMenu(this)
-                {
-                    TouchModeAbove = TouchMode.Fullscreen,
-                    ShadowWidthRes = Resource.Dimension.shadow_width,
-                    ShadowDrawableRes = Resource.Drawable.shadow,
-                    BehindWidthRes = Resource.Dimension.slidingmenu_offset,
-                    FadeDegree = 0.35f
-                };
+            {
+                TouchModeAbove = TouchMode.Fullscreen,
+                ShadowWidthRes = Resource.Dimension.shadow_width,
+                ShadowDrawableRes = Resource.Drawable.shadow,
+                BehindWidthRes = Resource.Dimension.slidingmenu_offset,
+                FadeDegree = 0.35f
+            };
             _menu.AttachToActivity(this, SlideStyle.Content);
             _menu.SetMenu(Resource.Layout.menu_frame);
             SupportFragmentManager

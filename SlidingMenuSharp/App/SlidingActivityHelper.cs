@@ -13,7 +13,7 @@ namespace SlidingMenuSharp.App
         private View _viewBehind;
         private bool _broadcasting;
         private bool _onPostCreateCalled;
-        private bool _enableSlide = true;
+        private bool _enableSlide;
 
         public SlidingActivityHelper(Activity activity)
         {
@@ -23,14 +23,14 @@ namespace SlidingMenuSharp.App
 
         public void OnCreate(Bundle savedInstanceState)
         {
-            _slidingMenu = (SlidingMenu) LayoutInflater.From(_activity).Inflate(Resource.Layout.slidingmenumain, null);
+            _slidingMenu = (SlidingMenu)LayoutInflater.From(_activity).Inflate(Resource.Layout.slidingmenumain, null);
         }
 
         public void OnPostCreate(Bundle savedInstanceState)
         {
             if (null == _viewBehind && null == _viewAbove)
                 throw new InvalidOperationException("Both SetBehindContentView must be called " +
-                    "in OnCreate in addition to SetContentView.");
+                "in OnCreate in addition to SetContentView.");
 
             _onPostCreateCalled = true;
 
@@ -50,17 +50,17 @@ namespace SlidingMenuSharp.App
             }
 
             new Handler().Post(() =>
+            {
+                if (open)
                 {
-                    if (open)
-                    {
-                        if (secondary)
-                            _slidingMenu.ShowSecondaryMenu(false);
-                        else
-                            _slidingMenu.ShowMenu(false);
-                    }
+                    if (secondary)
+                        _slidingMenu.ShowSecondaryMenu(false);
                     else
-                        _slidingMenu.ShowContent(false);
-                });
+                        _slidingMenu.ShowMenu(false);
+                }
+                else
+                    _slidingMenu.ShowContent(false);
+            });
         }
 
         public bool SlidingActionBarEnabled
@@ -142,6 +142,11 @@ namespace SlidingMenuSharp.App
                 return true;
             }
             return false;
+        }
+
+        public void OnContentChanged()
+        {
+            _slidingMenu.OnContentChanged(_activity);
         }
     }
 }

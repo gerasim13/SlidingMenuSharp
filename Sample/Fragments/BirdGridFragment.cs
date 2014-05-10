@@ -1,8 +1,9 @@
-using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Object = Java.Lang.Object;
+using Android.Support.V4.App;
+using Android.App;
 
 namespace Sample.Fragments
 {

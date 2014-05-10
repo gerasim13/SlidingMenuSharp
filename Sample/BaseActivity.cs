@@ -2,7 +2,8 @@ using Android.OS;
 using Android.Views;
 using SlidingMenuSharp;
 using SlidingMenuSharp.App;
-using ListFragment = Android.Support.V4.App.ListFragment;
+using Android.Support.V4.App;
+
 
 namespace Sample
 {
@@ -31,15 +32,14 @@ namespace Sample
                 t.Commit();
             }
             else
-                Frag =
-                    (ListFragment)
-                    SupportFragmentManager.FindFragmentById(Resource.Id.menu_frame);
+                Frag = (ListFragment)SupportFragmentManager.FindFragmentById(Resource.Id.menu_frame);
 
             SlidingMenu.ShadowWidthRes = Resource.Dimension.shadow_width;
             SlidingMenu.BehindOffsetRes = Resource.Dimension.slidingmenu_offset;
             SlidingMenu.ShadowDrawableRes = Resource.Drawable.shadow;
             SlidingMenu.FadeDegree = 0.25f;
             SlidingMenu.TouchModeAbove = TouchMode.Fullscreen;
+            SlidingMenu.SetContentFadeDegree(0.1f);
 
             ActionBar.SetDisplayHomeAsUpEnabled(true);
         }
