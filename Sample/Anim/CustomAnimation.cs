@@ -1,5 +1,5 @@
 using Android.OS;
-using SlidingMenuSharp;
+using SherlockSlidingMenuSharp;
 
 namespace Sample.Anim
 {

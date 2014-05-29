@@ -3,7 +3,7 @@ using Android.OS;
 
 namespace Sample
 {
-    [Activity(Label = "Sliding TitleBar", Theme = "@style/ExampleTheme")]
+    [Activity(Label = "Sliding TitleBar")]
     public class SlidingTitleBar : BaseActivity
     {
         public SlidingTitleBar() 

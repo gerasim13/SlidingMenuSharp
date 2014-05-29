@@ -1,12 +1,12 @@
 using Android.App;
 using Android.OS;
 using Android.Views;
-using SlidingMenuSharp;
-using SlidingMenuSharp.App;
+using SherlockSlidingMenuSharp;
+using SherlockSlidingMenuSharp.App;
 
 namespace Sample.Fragments
 {
-    [Activity(Label = "Responsive UI", Theme = "@style/ExampleTheme")]
+    [Activity(Label = "Responsive UI")]
     public class ResponsiveUIActivity : SlidingFragmentActivity
     {
         private Android.Support.V4.App.Fragment _content;
@@ -62,7 +62,7 @@ namespace Sample.Fragments
                     .Show();
         }
 
-        public override bool OnOptionsItemSelected(IMenuItem item)
+        public override bool OnOptionsItemSelected(Xamarin.ActionbarSherlockBinding.Views.IMenuItem item)
         {
             switch (item.ItemId)
             {

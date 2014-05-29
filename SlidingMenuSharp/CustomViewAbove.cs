@@ -8,8 +8,9 @@ using Android.Util;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
+using SherlockSlidingMenuSharp;
 
-namespace SlidingMenuSharp
+namespace SherlockSlidingMenuSharp
 {
     public delegate void PageSelectedEventHandler(object sender, PageSelectedEventArgs e);
     public delegate void PageScrolledEventHandler(object sender, PageScrolledEventArgs e);
@@ -19,12 +20,32 @@ namespace SlidingMenuSharp
     {
         private new const string Tag = "CustomViewAbove";
 
-        private const bool UseCache = false;
+        private bool UseCache = false;
 
         private const int MaxSettleDuration = 600; // ms
         private const int MinDistanceForFling = 25; // dips
 
+
         private IInterpolator _interpolator;
+        private IInterpolator Interpolator 
+        {
+            get 
+            {
+                if(_interpolator == null)
+                {
+                    var versionName = Android.OS.Build.VERSION.SdkInt;
+                    if (versionName < Android.OS.BuildVersionCodes.Honeycomb)
+                    {
+                        _interpolator = new AccelerateInterpolator();
+                    }
+                    else
+                    {
+                        _interpolator = new CVAInterpolator();
+                    }
+                }
+                return _interpolator;
+            }
+        }
 
         private class CVAInterpolator : Java.Lang.Object, IInterpolator
         {
@@ -37,44 +58,44 @@ namespace SlidingMenuSharp
 
         private View _content;
 
-	    private int _curItem;
-	    private Scroller _scroller;
+        private int _curItem;
+        private Scroller _scroller;
 
-	    private bool _scrollingCacheEnabled;
+        private bool _scrollingCacheEnabled;
 
-	    private bool _scrolling;
+        private bool _scrolling;
 
-	    private bool _isBeingDragged;
-	    private bool _isUnableToDrag;
-	    private int _touchSlop;
-	    private float _initialMotionX;
-	    /**
-	     * Position of the last motion event.
-	     */
-	    private float _lastMotionX;
-	    private float _lastMotionY;
-	    /**
-	     * ID of the active pointer. This is used to retain consistency during
-	     * drags/flings if multiple pointers are used.
-	     */
-	    protected int ActivePointerId = InvalidPointer;
-	    /**
-	     * Sentinel value for no current active pointer.
-	     * Used by {@link #ActivePointerId}.
-	     */
-	    private const int InvalidPointer = -1;
+        private bool _isBeingDragged;
+        private bool _isUnableToDrag;
+        private int _touchSlop;
+        private float _initialMotionX;
+        /**
+         * Position of the last motion event.
+         */
+        private float _lastMotionX;
+        private float _lastMotionY;
+        /**
+         * ID of the active pointer. This is used to retain consistency during
+         * drags/flings if multiple pointers are used.
+         */
+        protected int ActivePointerId = InvalidPointer;
+        /**
+         * Sentinel value for no current active pointer.
+         * Used by {@link #ActivePointerId}.
+         */
+        private const int InvalidPointer = -1;
 
-	    /**
-	     * Determines speed during touch scrolling
-	     */
-	    protected VelocityTracker VelocityTracker;
-	    private int _minimumVelocity;
-	    protected int MaximumVelocity;
-	    private int _flingDistance;
+        /**
+         * Determines speed during touch scrolling
+         */
+        protected VelocityTracker VelocityTracker;
+        private int _minimumVelocity;
+        protected int MaximumVelocity;
+        private int _flingDistance;
 
-	    private CustomViewBehind _viewBehind;
-	    //	private int mMode;
-	    private bool _enabled = true;
+        private CustomViewBehind _viewBehind;
+        //	private int mMode;
+        private bool _enabled = true;
 
         private readonly IList<View> _ignoredViews = new List<View>();
 
@@ -99,14 +120,11 @@ namespace SlidingMenuSharp
 
         void InitCustomViewAbove()
         {
-            if (Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
-                _interpolator = new CVAInterpolator();
-
             TouchMode = TouchMode.Margin;
             SetWillNotDraw(false);
             DescendantFocusability = DescendantFocusability.AfterDescendants;
             Focusable = true;
-            _scroller = new Scroller(Context, _interpolator);
+            _scroller = new Scroller(Context, Interpolator);
             var configuration = ViewConfiguration.Get(Context);
             _touchSlop = ViewConfigurationCompat.GetScaledPagingTouchSlop(configuration);
             _minimumVelocity = configuration.ScaledMinimumFlingVelocity;
@@ -145,8 +163,6 @@ namespace SlidingMenuSharp
         {
             return _curItem;
         }
-
-        public int AnimationDuration { get; set; }
 
         void SetCurrentItemInternal(int item, bool smoothScroll, bool always, int velocity = 0)
         {
@@ -302,29 +318,16 @@ namespace SlidingMenuSharp
             var distanceRatio = Math.Min(1f, 1.0f * Math.Abs(dx) / width);
             var distance = halfWidth + halfWidth * DistanceInfluenceForSnapDuration(distanceRatio);
             int duration;
-            //velocity = Math.Abs(velocity);
-            //if (velocity > 0)
-            //    duration = (int)(4 * Math.Round(1000 * Math.Abs(distance / velocity)));
-            //else
-            //{
-            //    var pageDelta = (float) Math.Abs(dx) / width;
-            //    duration = (int) ((pageDelta + 1) * 100);
-            //}
-            //duration = Math.Min(duration, MaxSettleDuration);
-            if (AnimationDuration == 0)
-            {
-                velocity = Math.Abs(velocity);
-                if (velocity > 0)
-                    duration = (int)(4 * Math.Round(1000 * Math.Abs(distance / velocity)));
-                else
-                {
-                    var pageDelta = (float)Math.Abs(dx) / width;
-                    duration = (int)((pageDelta + 1) * 100);
-                }
-                duration = Math.Min(duration, MaxSettleDuration);
-            }
+            velocity = Math.Abs(velocity);
+            if (velocity > 0)
+                duration = (int)(4 * Math.Round(1000 * Math.Abs(distance / velocity)));
             else
-                duration = AnimationDuration;
+            {
+                var pageDelta = (float) Math.Abs(dx) / width;
+                duration = (int) ((pageDelta + 1) * 100);
+            }
+            duration = Math.Min(duration, MaxSettleDuration);
+
             _scroller.StartScroll(sx, sy, dx, dy, duration);
             Invalidate();
         }
@@ -651,7 +654,7 @@ namespace SlidingMenuSharp
         {
             var activePointerId = ActivePointerId;
             var pointerIndex = GetPointerIndex(ev, activePointerId);
-            if (activePointerId == InvalidPointer || pointerIndex == InvalidPointer)
+            if (activePointerId == InvalidPointer)
                 return;
             var x = MotionEventCompat.GetX(ev, pointerIndex);
             var dx = x - _lastMotionX;

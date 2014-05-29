@@ -1,4 +1,4 @@
-namespace SlidingMenuSharp
+namespace SherlockSlidingMenuSharp
 {
     public enum MenuMode
     {

@@ -1,11 +1,11 @@
 using Android.App;
 using Android.OS;
 using Android.Widget;
-using SlidingMenuSharp;
+using SherlockSlidingMenuSharp;
 
 namespace Sample
 {
-    [Activity(Label = "Properties", Theme = "@style/ExampleTheme")]
+    [Activity(Label = "Properties")]
     public class PropertiesActivity : BaseActivity
     {
         public PropertiesActivity() 

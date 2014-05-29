@@ -3,7 +3,7 @@ using Android.OS;
 
 namespace Sample
 {
-    [Activity(Label = "Sliding Content", Theme = "@style/ExampleTheme")]
+    [Activity(Label = "Sliding Content")]
     public class SlidingContent : BaseActivity
     {
         public SlidingContent() 

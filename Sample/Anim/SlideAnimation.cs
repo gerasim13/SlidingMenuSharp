@@ -1,9 +1,9 @@
 using Android.App;
-using SlidingMenuSharp;
+using SherlockSlidingMenuSharp;
 
 namespace Sample.Anim
 {
-    [Activity(Label = "Slide Animation", Theme = "@style/ExampleTheme")]
+    [Activity(Label = "Slide Animation")]
     public class SlideAnimation : CustomAnimation
     {
         public SlideAnimation()

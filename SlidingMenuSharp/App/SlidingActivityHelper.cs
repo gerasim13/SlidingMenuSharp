@@ -2,8 +2,9 @@ using System;
 using Android.App;
 using Android.OS;
 using Android.Views;
+using SherlockSlidingMenuSharp;
 
-namespace SlidingMenuSharp.App
+namespace SherlockSlidingMenuSharp.App
 {
     public class SlidingActivityHelper
     {

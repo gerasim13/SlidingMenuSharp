@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Android.Runtime;
 
-namespace SlidingMenuSharp
+namespace SherlockSlidingMenuSharp
 {
     public static class ResourceIdManager
     {

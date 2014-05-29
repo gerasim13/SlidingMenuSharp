@@ -4,13 +4,13 @@ using Android.OS;
 using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Sample.Fragments;
-using SlidingMenuSharp;
+using SherlockSlidingMenuSharp;
 using Fragment = Android.Support.V4.App.Fragment;
 using FragmentManager = Android.Support.V4.App.FragmentManager;
 
 namespace Sample
 {
-    [Activity(Label = "ViewPager", Theme = "@style/ExampleTheme")]
+    [Activity(Label = "ViewPager")]
     public class ViewPagerActivity : BaseActivity
     {
         public ViewPagerActivity() 
@@ -29,7 +29,7 @@ namespace Sample
 
             vp.PageSelected += (sender, args) =>
                 {
-                    switch (args.P0)
+                    switch (args.Position)
                     {
                         case 0:
                             SlidingMenu.TouchModeAbove = TouchMode.Fullscreen;

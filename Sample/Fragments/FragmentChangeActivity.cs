@@ -1,10 +1,10 @@
 using Android.App;
 using Android.OS;
-using SlidingMenuSharp;
+using SherlockSlidingMenuSharp;
 
 namespace Sample.Fragments
 {
-    [Activity(Label = "Fragment Change", Theme = "@style/ExampleTheme")]
+    [Activity(Label = "Fragment Change")]
     public class FragmentChangeActivity : BaseActivity
     {
         private Android.Support.V4.App.Fragment _content;

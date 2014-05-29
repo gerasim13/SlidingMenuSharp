@@ -1,7 +1,7 @@
 using Android.Graphics;
 using Android.Views.Animations;
 
-namespace SlidingMenuSharp
+namespace SherlockSlidingMenuSharp
 {
     public interface ICanvasTransformer
     {
@@ -18,15 +18,14 @@ namespace SlidingMenuSharp
     {
         public void TransformCanvas(Canvas canvas, float percentOpen)
         {
-            var scale = (float)(percentOpen * 0.25 + 0.75);
+            var scale = (float) (percentOpen * 0.25 + 0.75);
             canvas.Scale(scale, scale, canvas.Width / 2f, canvas.Height / 2f);
         }
     }
 
     public class SlideTransformer : ICanvasTransformer
     {
-        static readonly SlideInterpolator Interpolator = new SlideInterpolator();
-
+        private static readonly SlideInterpolator Interpolator = new SlideInterpolator();
         public class SlideInterpolator : Java.Lang.Object, IInterpolator
         {
             public float GetInterpolation(float t)

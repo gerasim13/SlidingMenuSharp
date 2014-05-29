@@ -1,9 +1,9 @@
 using Android.App;
-using SlidingMenuSharp;
+using SherlockSlidingMenuSharp;
 
 namespace Sample.Anim
 {
-    [Activity(Label = "Scale Animation", Theme = "@style/ExampleTheme")]
+    [Activity(Label = "Scale Animation")]
     public class ScaleAnimation : CustomAnimation
     {
         public ScaleAnimation() 
