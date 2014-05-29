@@ -1,10 +1,11 @@
 using Android.OS;
 using Android.Support.V4.App;
+using Android.Support.V7.App;
 using Android.Views;
 
 namespace SlidingMenuSharp.App
 {
-    public class SlidingFragmentActivity : FragmentActivity, ISlidingActivity
+    public class SlidingFragmentActivity : ActionBarActivity, ISlidingActivity
     {
         private SlidingActivityHelper _helper;
 
@@ -100,11 +101,6 @@ namespace SlidingMenuSharp.App
         {
             var b = _helper.OnKeyUp(keyCode, e);
             return b ? b : base.OnKeyUp(keyCode, e);
-        }
-
-        public override void OnContentChanged() {
-            base.OnContentChanged();
-            _helper.OnContentChanged();
         }
     }
 }
