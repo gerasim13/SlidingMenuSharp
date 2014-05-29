@@ -1,0 +1,46 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Sample/BaseActivity.cs">
+    <Files>
+      <File FileName="Sample/BaseActivity.cs" Line="9" Column="56" />
+      <File FileName="Sample/ViewPagerActivity.cs" Line="11" Column="7" />
+      <File FileName="Sample/LeftAndRightActivity.cs" Line="1" Column="1" />
+      <File FileName="Sample/ExampleListActivity.cs" Line="46" Column="44" />
+      <File FileName="Sample/Fragments/BirdActivity.cs" Line="1" Column="1" />
+      <File FileName="Sample/Fragments/ResponsiveUIActivity.cs" Line="1" Column="1" />
+      <File FileName="Sample/Util.cs" Line="1" Column="1" />
+      <File FileName="Sample/SlidingTitleBar.cs" Line="1" Column="1" />
+      <File FileName="Sample/SlidingContent.cs" Line="1" Column="1" />
+      <File FileName="Sample/SampleListFragment.cs" Line="1" Column="1" />
+      <File FileName="Sample/AttachExample.cs" Line="1" Column="1" />
+      <File FileName="Sample/Resources/Resource.Designer.cs" Line="1" Column="1" />
+      <File FileName="Sample/Resources/AboutResources.txt" Line="1" Column="1" />
+      <File FileName="Sample/Resources/xml/main.xml" Line="1" Column="1" />
+      <File FileName="Sample/Resources/values/strings.xml" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Sample" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="ComponentReferenceFolder" expanded="True" />
+            <Node name="Fragments" expanded="True" />
+            <Node name="Resources" expanded="True">
+              <Node name="drawable" expanded="True" />
+              <Node name="layout" expanded="True" />
+              <Node name="xml" expanded="True" />
+            </Node>
+            <Node name="BaseActivity.cs" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/pavellitvinenko/Documents/Projects/Telesite/Libraries/Android/SlidingMenuSharp/Sample/BaseActivity.cs" line="21" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Sample AndroidDeviceId-Debug="emulator-5554" MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" MonoForAntroid.PreferredTheme="Theme" />
+</Properties>
