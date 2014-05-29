@@ -17,6 +17,7 @@ namespace SlidingMenuSharp
         private View _content;
         private View _secondaryContent;
         private int _widthOffset;
+        private int _secondaryWidthOffset;
         private ICanvasTransformer _transformer;
         private MenuMode _mode;
         private readonly Paint _fadePaint = new Paint();
@@ -27,17 +28,17 @@ namespace SlidingMenuSharp
         private Bitmap _selectorDrawable;
         private View _selectedView;
 
-        public CustomViewBehind(Context context) 
+        public CustomViewBehind(Context context)
             : this(context, null)
         {
         }
 
-        public CustomViewBehind(Context context, IAttributeSet attrs) 
+        public CustomViewBehind(Context context, IAttributeSet attrs)
             : base(context, attrs)
         {
             TouchMode = TouchMode.Margin;
             MarginThreshold =
-                (int) TypedValue.ApplyDimension(ComplexUnitType.Dip, MARGIN_THRESHOLD, Resources.DisplayMetrics);
+                (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, MARGIN_THRESHOLD, Resources.DisplayMetrics);
         }
 
         public CustomViewAbove CustomViewAbove { get; set; }
@@ -50,9 +51,19 @@ namespace SlidingMenuSharp
         public int WidthOffset
         {
             get { return _widthOffset; }
-            set 
+            set
             {
                 _widthOffset = value;
+                RequestLayout();
+            }
+        }
+
+        public int SecondaryWidthOffset
+        {
+            get { return _secondaryWidthOffset; }
+            set
+            {
+                _secondaryWidthOffset = value;
                 RequestLayout();
             }
         }
@@ -62,6 +73,11 @@ namespace SlidingMenuSharp
         public int BehindWidth
         {
             get { return _content.Width; }
+        }
+
+        public int SecondaryBehindWidth
+        {
+            get { return SecondaryContent == null ? 0 : SecondaryContent.Width; }
         }
 
         public View Content
@@ -126,7 +142,7 @@ namespace SlidingMenuSharp
             var height = b - t;
             Content.Layout(0, 0, width - _widthOffset, height);
             if (SecondaryContent != null)
-                SecondaryContent.Layout(0, 0, width - _widthOffset, height);
+                SecondaryContent.Layout(0, 0, width - _secondaryWidthOffset, height);
         }
 
         protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
@@ -138,7 +154,10 @@ namespace SlidingMenuSharp
             var contentHeight = GetChildMeasureSpec(heightMeasureSpec, 0, height);
             Content.Measure(contentWidth, contentHeight);
             if (SecondaryContent != null)
-                SecondaryContent.Measure(contentWidth, contentHeight);
+            {
+                int _contentSecondaryWidth = GetChildMeasureSpec(widthMeasureSpec, 0, width - SecondaryWidthOffset);
+                SecondaryContent.Measure(_contentSecondaryWidth, contentHeight);
+            }
         }
 
         public MenuMode Mode
@@ -153,6 +172,33 @@ namespace SlidingMenuSharp
                     if (_secondaryContent != null)
                         _secondaryContent.Visibility = ViewStates.Invisible;
                 }
+
+                switch (Mode)
+                {
+                    case MenuMode.Left:
+                        if (_content != null)
+                            _content.Visibility = ViewStates.Visible;
+                        if (_secondaryContent != null)
+                            _secondaryContent.Visibility = ViewStates.Invisible;
+                        break;
+                    case MenuMode.Right:
+                        if (_content != null && _secondaryContent != null)
+                        {
+                            _content.Visibility = ViewStates.Invisible;
+                            _secondaryContent.Visibility = ViewStates.Invisible;
+                        }
+                        else
+                        {
+                            if (_content != null)
+                                _content.Visibility = ViewStates.Visible;
+                            if (_secondaryContent != null)
+                                _secondaryContent.Visibility = ViewStates.Invisible;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
                 _mode = value;
             }
         }
@@ -162,7 +208,7 @@ namespace SlidingMenuSharp
         public Drawable ShadowDrawable
         {
             get { return _shadowDrawable; }
-            set 
+            set
             {
                 _shadowDrawable = value;
                 Invalidate();
@@ -232,9 +278,9 @@ namespace SlidingMenuSharp
                     SecondaryContent.Visibility = x <= content.Left ? ViewStates.Invisible : ViewStates.Visible;
                     vis = x == 0 ? ViewStates.Invisible : ViewStates.Visible;
                     if (x <= content.Left)
-                        ScrollTo((int)((x+BehindWidth)*ScrollScale), y);
+                        ScrollTo((int)((x + BehindWidth) * ScrollScale), y);
                     else
-                        ScrollTo((int)(BehindWidth - Width + (x-BehindWidth)*ScrollScale), y);
+                        ScrollTo((int)(BehindWidth - Width + (x - SecondaryBehindWidth) * ScrollScale), y);
                     break;
             }
             if (vis == ViewStates.Invisible)
@@ -270,7 +316,7 @@ namespace SlidingMenuSharp
                         case 0:
                             return content.Left - BehindWidth;
                         case 2:
-                            return content.Left + BehindWidth;
+                            return content.Left + SecondaryBehindWidth;
                     }
                     break;
             }
@@ -286,9 +332,13 @@ namespace SlidingMenuSharp
 
         public int GetAbsRightBound(View content)
         {
-            if (Mode == MenuMode.Right || Mode == MenuMode.LeftRight)
+            if (Mode == MenuMode.Left)
+                return content.Left;
+            else if (Mode == MenuMode.Right)
                 return content.Left + BehindWidth;
-            return Mode == MenuMode.Left ? content.Left : 0;
+            else if (Mode == MenuMode.LeftRight)
+                return content.Left + SecondaryBehindWidth;
+            return 0;
         }
 
         public bool MarginTouchAllowed(View content, int x)
@@ -301,7 +351,7 @@ namespace SlidingMenuSharp
                 return (x <= right && x >= right - MarginThreshold);
             if (Mode == MenuMode.LeftRight)
                 return (x >= left && x <= MarginThreshold + left) ||
-                       (x <= right && x >= right - MarginThreshold);
+                (x <= right && x >= right - MarginThreshold);
             return false;
         }
 
@@ -322,9 +372,9 @@ namespace SlidingMenuSharp
         public bool MenuTouchInQuickReturn(View content, int currPage, float x)
         {
             if (Mode == MenuMode.Left || (Mode == MenuMode.LeftRight && currPage == 0))
-                return x >= content.Left;
+                return x >= content.Left + MARGIN_THRESHOLD;
             if (Mode == MenuMode.Right || (Mode == MenuMode.LeftRight && currPage == 2))
-                return x <= content.Right;
+                return x <= content.Right + MARGIN_THRESHOLD;
             return false;
         }
 
@@ -358,7 +408,8 @@ namespace SlidingMenuSharp
 
         public void DrawShadow(View content, Canvas canvas)
         {
-            if (ShadowDrawable == null || ShadowWidth <= 0) return;
+            if (ShadowDrawable == null || ShadowWidth <= 0)
+                return;
             var left = 0;
             switch (Mode)
             {
@@ -366,7 +417,18 @@ namespace SlidingMenuSharp
                     left = content.Left - ShadowWidth;
                     break;
                 case MenuMode.Right:
-                    left = content.Right;
+                    if (_secondaryContent == null)
+                        left = content.Right;
+                    else
+                    {
+                        if (_secondaryShadowDrawable != null)
+                        {
+                            left = content.Right;
+                            _secondaryShadowDrawable.SetBounds(left, 0, ShadowWidth, Height);
+                            _secondaryShadowDrawable.Draw(canvas);
+                        }
+                        left = content.Left - ShadowWidth;
+                    }
                     break;
                 case MenuMode.LeftRight:
                     if (SecondaryShadowDrawable != null)
@@ -384,9 +446,10 @@ namespace SlidingMenuSharp
 
         public void DrawFade(View content, Canvas canvas, float openPercent)
         {
-            if (!FadeEnabled) return;
+            if (!FadeEnabled)
+                return;
 
-            var alpha = (int) (FadeDegree * 255 * Math.Abs(1 - openPercent));
+            var alpha = (int)(FadeDegree * 255 * Math.Abs(1 - openPercent));
             _fadePaint.Color = Color.Argb(alpha, 0, 0, 0);
             var left = 0;
             var right = 0;
@@ -401,11 +464,11 @@ namespace SlidingMenuSharp
                     right = content.Right + BehindWidth;
                     break;
                 case MenuMode.LeftRight:
-                    left = content.Left - BehindWidth;
+                    left = content.Left - SecondaryBehindWidth;
                     right = content.Left;
                     canvas.DrawRect(left, 0, right, Height, _fadePaint);
                     left = content.Right;
-                    right = content.Right + BehindWidth;
+                    right = content.Right + SecondaryBehindWidth;
                     break;
             }
             canvas.DrawRect(left, 0, right, Height, _fadePaint);
@@ -413,7 +476,8 @@ namespace SlidingMenuSharp
 
         public void DrawSelector(View content, Canvas canvas, float openPercent)
         {
-            if (!SelectorEnabled) return;
+            if (!SelectorEnabled)
+                return;
             if (_selectorDrawable != null && SelectedView != null)
             {
                 var tag = (string)SelectedView.GetTag(Resource.Id.selected_view);
@@ -456,7 +520,7 @@ namespace SlidingMenuSharp
                 if (value != null && value.Parent != null)
                 {
                     _selectedView = value;
-                    _selectedView.SetTag(Resource.Id.selected_view, Tag+"SelectedView");
+                    _selectedView.SetTag(Resource.Id.selected_view, Tag + "SelectedView");
                     Invalidate();
                 }
             }

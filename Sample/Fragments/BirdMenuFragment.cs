@@ -1,10 +1,11 @@
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using Android.Support.V4.App;
 
 namespace Sample.Fragments
 {
-    public class BirdMenuFragment : Android.Support.V4.App.ListFragment
+    public class BirdMenuFragment : ListFragment
     {
         public override View OnCreateView(LayoutInflater inflater, ViewGroup p1, Bundle p2)
         {
