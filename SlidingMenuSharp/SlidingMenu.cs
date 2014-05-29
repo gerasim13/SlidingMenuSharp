@@ -170,7 +170,7 @@ namespace SherlockSlidingMenuSharp
 
         public void SetAnimationDuration(int duration)
         {
-            _viewAbove.AnimationDuration = duration;
+			_viewAbove.Animation.Duration = duration;
         }
 
         public View GetMenu()

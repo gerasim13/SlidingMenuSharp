@@ -16,7 +16,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <TargetFrameworkVersion>
     </TargetFrameworkVersion>
-    <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
+    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,10 +35,11 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ActionBarSherlock">
-      <HintPath>..\Components\XamarinActionBarSherlock-4.4.0.2\lib\android\ActionBarSherlock.dll</HintPath>
+      <HintPath>..\..\..\..\Components\XamarinActionBarSherlock-4.4.0.4\lib\android\ActionBarSherlock.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="Mono.Android.Export" />
@@ -47,7 +49,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="Xamarin.Android.Support.v4">
-      <HintPath>..\Components\xamandroidsupportv4-18-4.18.1\lib\android\Xamarin.Android.Support.v4.dll</HintPath>
+      <HintPath>..\..\..\..\Components\XamarinActionBarSherlock-4.4.0.4\lib\android\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -77,13 +79,15 @@
     <AndroidResource Include="Resources\values\attrs.xml" />
   </ItemGroup>
   <ItemGroup>
-    <XamarinComponentReference Include="xamandroidsupportv4-18">
-      <Visible>False</Visible>
-      <Version>4.18.1</Version>
-    </XamarinComponentReference>
     <XamarinComponentReference Include="XamarinActionBarSherlock">
+      <InstallationInProgress>True</InstallationInProgress>
+      <Version>4.4.0.4</Version>
       <Visible>False</Visible>
-      <Version>4.4.0.2</Version>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="xamandroidsupportv4-18">
+      <InstallationInProgress>True</InstallationInProgress>
+      <Version>4.19.1.0</Version>
+      <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
